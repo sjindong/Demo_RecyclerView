@@ -34,7 +34,6 @@ public class MySimpleAdapter  extends RecyclerView.Adapter<MyViewHolder>{
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textView.setText(mDatas.get(position));
-        Log.e("SJD","textView Width = "+position+"  "+holder.textView.getWidth());
     }
 
     @Override
@@ -43,11 +42,10 @@ public class MySimpleAdapter  extends RecyclerView.Adapter<MyViewHolder>{
     }
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder{
+class MyViewHolder extends RecyclerView.ViewHolder {
     TextView textView;
     public MyViewHolder(View itemView) {
         super(itemView);
         textView = (TextView) itemView.findViewById(R.id.single_textView);
-
     }
 }
