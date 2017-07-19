@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 super.getItemOffsets(outRect, view, parent, state);
             }
         };
-        mRecyclerView.addItemDecoration( itemDecor);
+        mRecyclerView.addItemDecoration( itemDecor);//设置分割线
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());//设置动画
     }
 
     private void initDatas() {
@@ -83,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
+            case R.id.actiong_add:
+                mAdapter.addData(1);
+                break;
+            case R.id.actiong_delete:
+                mAdapter.deleteData(1);
+                break;
             case R.id.action_gridview:
                 mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
                 break;

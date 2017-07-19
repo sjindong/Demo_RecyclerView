@@ -41,6 +41,15 @@ public class MySimpleAdapter  extends RecyclerView.Adapter<MySimpleAdapter.MyVie
         return mDatas.size();
     }
 
+    public  void addData(int pos){
+        mDatas.add(pos,"Insert One");
+        notifyItemInserted(pos);
+//        notifyDataSetChanged();   不要写成这个
+    }
+    public void deleteData(int pos){
+        mDatas.remove(pos);
+        notifyItemRemoved(pos);
+    }
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         public MyViewHolder(View itemView) {
