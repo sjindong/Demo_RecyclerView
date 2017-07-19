@@ -1,10 +1,9 @@
 package recyclerview.com.demo_recyclerview;
 
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class StaggeredActivity extends AppCompatActivity {
 
     //不关心item是否显示正确的位置     LayoutMnager
 //    不关心item如何分割               ItemDecoration
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     //RecyclerView  实现：listView（横向和竖向） GridView（横向和竖向）  瀑布流， 定制item增加和删除动画
     private RecyclerView mRecyclerView;
     private List<String> mDatas;
-    private MySimpleAdapter mAdapter;
+    private StaggeredAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
         initDatas();
         initViews();
-        mAdapter = new MySimpleAdapter(this,mDatas);
+        mAdapter = new StaggeredAdapter(this,mDatas);
         mRecyclerView.setAdapter(mAdapter);
 
         //设置RecyclerView的布局管理
-        LinearLayoutManager linearLaoutMnager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        mRecyclerView.setLayoutManager(linearLaoutMnager);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
         //设置RecyclerView的Item之间分割线
         RecyclerView.ItemDecoration itemDecor = new RecyclerView.ItemDecoration() {
@@ -83,21 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case R.id.action_gridview:
-                mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
-                break;
-            case R.id.actiong_ListView:
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                break;
-            case R.id.action_hor_gridview:
-                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(5,StaggeredGridLayoutManager.HORIZONTAL));
-                break;
-            case R.id.action_staggered:
-                Intent intent = new Intent(this,StaggeredActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
