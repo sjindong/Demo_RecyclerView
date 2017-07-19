@@ -14,10 +14,11 @@ import java.util.List;
  * Created by sjd on 2017/7/17.
  */
 
-public class MySimpleAdapter  extends RecyclerView.Adapter<MySimpleAdapter.MyViewHolder>{
+public class MySimpleAdapter extends RecyclerView.Adapter<MySimpleAdapter.MyViewHolder> {
     private LayoutInflater mInflater;
     private Context mContext;
     private List<String> mDatas;
+
     public MySimpleAdapter(Context context, List<String> datas) {
         mContext = context;
         mDatas = datas;
@@ -26,7 +27,7 @@ public class MySimpleAdapter  extends RecyclerView.Adapter<MySimpleAdapter.MyVie
 
     @Override //创建
     public MySimpleAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_singale,parent,false);
+        View view = mInflater.inflate(R.layout.item_singale, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
@@ -34,6 +35,28 @@ public class MySimpleAdapter  extends RecyclerView.Adapter<MySimpleAdapter.MyVie
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textView.setText(mDatas.get(position));
+        setUpItemEvent(holder);
+    }
+
+    protected void setUpItemEvent(final MyViewHolder holder) {
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int layoutPosition = holder.getLayoutPosition();//这里要注意 ， item 根据holder来获取，不是通过传输的数据
+                    mOnItemClickListener.onItemClick(view, layoutPosition);
+
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int layoutPosition = holder.getLayoutPosition();
+                    mOnItemClickListener.onItemLongClick(view, layoutPosition);
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -41,20 +64,37 @@ public class MySimpleAdapter  extends RecyclerView.Adapter<MySimpleAdapter.MyVie
         return mDatas.size();
     }
 
-    public  void addData(int pos){
-        mDatas.add(pos,"Insert One");
-        notifyItemInserted(pos);
+    public void addData(int pos) {
+        mDatas.add(pos, "Insert One");
+        notifyItemInserted(pos); //不会刷新所有的view，不会重置他们的position
 //        notifyDataSetChanged();   不要写成这个
     }
-    public void deleteData(int pos){
+
+    public void deleteData(int pos) {
         mDatas.remove(pos);
         notifyItemRemoved(pos);
     }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.single_textView);
         }
+    }
+
+    //添加onclick 接口
+    //在 onBindViewHolder 进行回调
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+
+        void onItemLongClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
  * Created by sjd on 2017/7/17.
  */
 
-public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyViewHolder>{
+public class StaggeredAdapter extends MySimpleAdapter{
     private LayoutInflater mInflater;
     private Context mContext;
     private List<String> mDatas;
@@ -22,6 +22,7 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
     private List<Integer> mHeight;
 
     public StaggeredAdapter(Context context, List<String> datas) {
+        super(context,datas);
         mContext = context;
         mDatas = datas;
         mInflater = LayoutInflater.from(context);
@@ -31,32 +32,12 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
         }
     }
 
-    @Override //创建
-    public StaggeredAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_singale,parent,false);
-        MyViewHolder myViewHolder = new MyViewHolder(view);
-        return myViewHolder;
-    }
-
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ViewGroup.LayoutParams lp=  holder.itemView.getLayoutParams();
         lp.height = mHeight.get(position);
         holder.itemView.setLayoutParams(lp);
         holder.textView.setText(mDatas.get(position));
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDatas.size();
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.single_textView);
-        }
+        setUpItemEvent(holder);
     }
 }

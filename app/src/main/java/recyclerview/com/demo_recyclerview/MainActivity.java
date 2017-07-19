@@ -13,6 +13,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,18 @@ public class MainActivity extends AppCompatActivity {
         };
         mRecyclerView.addItemDecoration( itemDecor);//设置分割线
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());//设置动画
+
+        mAdapter.setOnItemClickListener(new MySimpleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(MainActivity.this,position+" click",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(MainActivity.this,position+" longclick",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initDatas() {

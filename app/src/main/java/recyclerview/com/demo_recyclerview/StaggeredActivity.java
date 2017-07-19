@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,24 +42,19 @@ public class StaggeredActivity extends AppCompatActivity {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        //设置RecyclerView的Item之间分割线
-        RecyclerView.ItemDecoration itemDecor = new RecyclerView.ItemDecoration() {
+        mAdapter.setOnItemClickListener(new MySimpleAdapter.OnItemClickListener() {
             @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDraw(c, parent, state);
+            public void onItemClick(View view, int position) {
+                Toast.makeText(StaggeredActivity.this,position+" click",Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDrawOver(c, parent, state);
+            public void onItemLongClick(View view, int position) {
+                mAdapter.deleteData(position);
+                Toast.makeText(StaggeredActivity.this,position+" longclick",Toast.LENGTH_SHORT).show();
             }
+        });
 
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-            }
-        };
-        mRecyclerView.addItemDecoration( itemDecor);
     }
 
     private void initDatas() {
